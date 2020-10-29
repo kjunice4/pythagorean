@@ -17,7 +17,7 @@ Builder.load_string("""
         Button:
             background_normal: "KSquared_Logo.png"
             on_release:
-                app.root.current = "Exponents_steps"
+                app.root.current = "Pythagorean"
                 root.manager.transition.direction = "left" 
                 
         Button:
@@ -25,18 +25,19 @@ Builder.load_string("""
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
-            text: "KSquared Exponent Solver"
+            text: "KSquared Pythagorean Step by Step Solver"
             on_release:
-                app.root.current = "Exponents_steps"
+                app.root.current = "Pythagorean"
                 root.manager.transition.direction = "left" 
 
 """)
 
+
 #EXPONENTS STEPS
 Builder.load_string("""
-<Exponents_steps>
-    id:Exponents_steps
-    name:"Exponents_steps"
+<Pythagorean>
+    id:Pythagorean
+    name:"Pythagorean"
 
     ScrollView:
         name: "Scroll"
@@ -56,7 +57,7 @@ Builder.load_string("""
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "Exponents Solver"
+                text: "Pythagorean Step by Step Solver"
             
             BoxLayout:
                 cols: 2
@@ -75,8 +76,8 @@ Builder.load_string("""
                     padding: 10, 10
                     background_color: 1, 0 , 0 , 1
                     on_release:
-                        Power_entry.text = ""
-                        Base_entry.text = ""
+                        a.text = ""
+                        b.text = ""
                         
                 Button:
                     id: steps
@@ -97,10 +98,17 @@ Builder.load_string("""
                 height: 200
                 padding: 10, 10
                 on_release:
-                    Power_entry.text = ""
-                    Base_entry.text = ""
-                    list_of_steps.clear_widgets()              
+                    a.text = ""
+                    b.text = ""
+                    list_of_steps.clear_widgets()            
                     
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "a^2 + b^2 = c^2"       
+                   
             BoxLayout:
                 cols: 2
                 id: steps
@@ -113,18 +121,18 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10, 10
-                    text: "Base:"
+                    text: "a :"
                                                         
                 TextInput:
-                    id: Base_entry
-                    text: Base_entry.text
+                    id: a
+                    text: a.text
                     multiline: False
                     font_size: 125
                     size_hint_y: None
                     height: 200
                     padding: 10
-                    input_filter: lambda text, from_undo: text[:4 - len(Base_entry.text)]           
-            
+                    input_filter: lambda text, from_undo: text[:4 - len(a.text)]  
+                    
             BoxLayout:
                 cols: 2
                 id: steps
@@ -137,28 +145,35 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10, 10
-                    text: "Power:"
+                    text: "b :"
                                                     
                 TextInput:
-                    id: Power_entry
-                    text: Power_entry.text
+                    id: b
+                    text: b.text
                     multiline: False
                     font_size: 125
                     size_hint_y: None
                     height: 200
-                    padding: 10              
-                    input_filter: lambda text, from_undo: text[:4 - len(Power_entry.text)]           
-            
-            Button:
+                    padding: 10          
+                    input_filter: lambda text, from_undo: text[:4 - len(b.text)]  
+                    
+            BoxLayout:
+                cols: 2
                 id: steps
-                text: "Calculate"   
-                font_size: 75
                 size_hint_y: None
-                background_color: 0, 1 , 0 , 1
-                height: 200
-                padding: 10, 10
-                on_release:
-                    Exponents_steps.steps(Base_entry.text + "^" + Power_entry.text)    
+                height: self.minimum_height 
+                padding: 5,5  
+    
+                Button:
+                    id: steps
+                    text: "Calculate"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 1 , 0 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        Pythagorean.steps(a.text + "," + b.text)    
                        
             GridLayout:
                 id: list_of_steps
@@ -169,101 +184,102 @@ Builder.load_string("""
 
 """)
 
-class Exponents_steps(Screen):
+class Pythagorean(Screen):
     sm = ScreenManager()
 
     def __init__(self, **kwargs):
-        super(Exponents_steps, self).__init__(**kwargs)
+        super(Pythagorean, self).__init__(**kwargs)
         Window.bind(on_keyboard=self._key_handler)
 
     def _key_handler(self, instance, key, *args):
         if key == 27:
+            print("Its working ESC = 27 LENGTH")
             self.set_previous_screen()
             return True
 
     def set_previous_screen(self):
+        print("Length is almost working")        
         if sm.current != "Homepage":
+            print("Its working List")
             sm.transition.direction = 'right'
-            sm.current = sm.previous()    
+            sm.current = sm.previous()
+            
     layouts = []
     def steps(self,entry):
+        print("entry ",entry)
         layout = GridLayout(cols=1,size_hint_y= None)
         self.ids.list_of_steps.add_widget(layout)
         self.layouts.append(layout)
-        
-        self.ids.list_of_steps.add_widget(Label(text="Expression entered : " + entry.replace(" ",""), font_size = 50, size_hint_y= None, height=100))
-        self.layouts.append(layout)
-        try:
-            i = 0
-            while i < entry.count("^"):
-                entry = list(entry.split("^"))
-                print("entry ;", entry)
-                display = str(entry[0]) + "^" + str(entry[1])
-                print()
-                print("display : ",display)
-                """if entry[1].count(".") == 0 and entry[1].count("-") == 0:
-                    mult_signs =  " x " + entry[0]
-                    print()
-                    print("mult_signs",mult_signs)
-                    times = int(entry[1]) - 1
-                    print()
-                    print("times",times)
-                    expand = entry[0] + mult_signs * times
-                    print()
-                    print("expand",expand)
-                    self.ids.list_of_steps.add_widget(Label(text="Expanded form of : " + display, font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text=expand, font_size = 50, size_hint_y= None, height=100))
-                    self.layouts.append(layout)"""
-
-                solved = str(float(entry[0]) ** float(entry[1]))
-                print()
-                print("solved :", solved)
-                entry[0] = str(float(entry[0]) ** float(entry[1]))
-                print()
-                print("entry[0] :",entry[0])
-                if entry[1] != "":
-                    entry.pop(1)
-                print()
-                print("entry list:", entry)
-                print()
-                entry = str(entry).replace("[","").replace("]","").replace("'","").replace(","," ^")
-                print("entry string :",entry)
-                print()
-                self.ids.list_of_steps.add_widget(Label(text= display + " = " + solved , font_size = 50, size_hint_y= None, height=100))
-            i = i + 1
-            
-            entry = str(format(float(entry),",")).replace("(","").replace(")","")
-            print()
-            print("entry formatted :    ",entry)
-            self.ids.list_of_steps.add_widget(Label(text="Final Answer : " + entry, font_size = 50, size_hint_y= None, height=100))
-            self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
-            self.layouts.append(layout)    
-        except Exception:
+        entry = str(entry).replace(" ","")
+        entry = list(entry.split(","))
+        while float(entry[0]) > 0 and float(entry[1]) > 0:
+            print("entry ;", entry)
+            entry = str(entry[0]) + "^2 " + "+ " + str(entry[1]) + "^2 = c^2"
+            self.ids.list_of_steps.add_widget(Label(text="Pythagorean : " + entry, font_size = 50, size_hint_y= None, height=100))
+            self.layouts.append(layout)
             try:
-                self.ids.list_of_steps.add_widget(Label(text= "Out Of Range" ,font_size = 50, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
-                self.layouts.append(layout)
-                    
-            except Exception:               
+                equal_sign = entry.find("=")
+                entry_a_b = entry[:equal_sign].replace(" ","")
+                list_a_b = entry_a_b.split("+")
+                print("list_a_b",list_a_b)
+                
+                c = entry[equal_sign+1:].replace(" ","")
+                
+                a = list_a_b[0]
+                a_solved = str(eval(str(a).replace("^","**")))
+                print("a_solved",a_solved)
+                self.ids.list_of_steps.add_widget(Label(text="Entry a : " + a + " = " + format(float(a_solved),","), font_size = 50, size_hint_y= None, height=100))
+    
+                b = list_a_b[1]
+                b_solved = str(eval(str(b).replace("^","**")))
+                print("b_solved",b_solved)           
+                
+                self.ids.list_of_steps.add_widget(Label(text="Entry b : " + b + " = " + format(float(b_solved),","), font_size = 50, size_hint_y= None, height=100))
+                
+                ab_added = str(float(a_solved) + float(b_solved))
+                
+                self.ids.list_of_steps.add_widget(Label(text="Add " + format(float(a_solved),",") + " + " + format(float(b_solved),",") + " = " + ab_added , font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= c + " = " + format(float(ab_added),","), font_size = 50, size_hint_y= None, height=100))
+                solved = str(float(ab_added)**.5)
+                print("solved",solved)
+                if solved[-2] == "." and solved[-1] == "0":
+                    self.ids.list_of_steps.add_widget(Label(text= "√(" + c + ") = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "c = " + format(float(solved),","), font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                    break
+                else:
+                    self.ids.list_of_steps.add_widget(Label(text= "√(" + c + ") = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "c = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                    break
+                
+            except Exception:
                 self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
                 self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
-                self.layouts.append(layout)  
-                
+                self.layouts.append(layout)
+                break
+        print("entry neg: ",entry)
+        if entry[0].count("-") > 0 or entry[1].count("-") > 0:
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
+            self.layouts.append(layout)
+        
 class Homepage(Screen):
     pass            
            
-          
 sm = ScreenManager()
 sm.add_widget(Homepage(name="Homepage"))
-sm.add_widget(Exponents_steps(name="Exponents_steps"))     
+sm.add_widget(Pythagorean(name="Pythagorean"))     
 sm.current = "Homepage"   
 
 
-class Exponents(App):
+class Pythagorean(App):
     def build(app):
         return sm
 
 if __name__ == '__main__':
-    Exponents().run()
+    Pythagorean().run()
     
 
