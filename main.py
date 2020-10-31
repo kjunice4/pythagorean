@@ -21,7 +21,7 @@ Builder.load_string("""
                 root.manager.transition.direction = "left" 
                 
         Button:
-            font_size: 75
+            font_size: 60
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
@@ -51,13 +51,6 @@ Builder.load_string("""
             size_hint: 1, None
             width:200
             height: self.minimum_height
-        
-            Label:
-                font_size: 75
-                size_hint_y: None
-                height: 200
-                padding: 10, 10
-                text: "Pythagorean Step by Step Solver"
             
             BoxLayout:
                 cols: 2
