@@ -131,7 +131,7 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10
-                    input_filter: lambda text, from_undo: text[:4 - len(a.text)]  
+                    input_filter: lambda text, from_undo: text[:3 - len(a.text)]  
                     
             BoxLayout:
                 cols: 2
@@ -155,7 +155,7 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10          
-                    input_filter: lambda text, from_undo: text[:4 - len(b.text)]  
+                    input_filter: lambda text, from_undo: text[:3 - len(b.text)]  
                     
             BoxLayout:
                 cols: 2
@@ -210,14 +210,14 @@ class Pythagorean(Screen):
         layout = GridLayout(cols=1,size_hint_y= None)
         self.ids.list_of_steps.add_widget(layout)
         self.layouts.append(layout)
-        entry = str(entry).replace(" ","")
-        entry = list(entry.split(","))
-        while float(entry[0]) > 0 and float(entry[1]) > 0:
-            print("entry ;", entry)
-            entry = str(entry[0]) + "^2 " + "+ " + str(entry[1]) + "^2 = c^2"
-            self.ids.list_of_steps.add_widget(Label(text="Pythagorean : " + entry, font_size = 50, size_hint_y= None, height=100))
-            self.layouts.append(layout)
-            try:
+        try:
+            entry = str(entry).replace(" ","")
+            entry = list(entry.split(","))
+            while float(entry[0]) > 0 and float(entry[1]) > 0:
+                print("entry ;", entry)
+                entry = str(entry[0]) + "^2 " + "+ " + str(entry[1]) + "^2 = c^2"
+                self.ids.list_of_steps.add_widget(Label(text="Pythagorean : " + entry, font_size = 50, size_hint_y= None, height=100))
+                self.layouts.append(layout)
                 equal_sign = entry.find("=")
                 entry_a_b = entry[:equal_sign].replace(" ","")
                 list_a_b = entry_a_b.split("+")
@@ -255,11 +255,11 @@ class Pythagorean(Screen):
                     self.layouts.append(layout)
                     break
                 
-            except Exception:
-                self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
-                self.layouts.append(layout)
-                break
+        except Exception:
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
+            self.layouts.append(layout)
+            
         print("entry neg: ",entry)
         if entry[0].count("-") > 0 or entry[1].count("-") > 0:
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
@@ -282,3 +282,4 @@ class Pythagorean(App):
 if __name__ == '__main__':
     Pythagorean().run()
     
+
