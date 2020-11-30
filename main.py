@@ -67,40 +67,29 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10, 10
-                    background_color: 1, 0 , 0 , 1
                     on_release:
                         a.text = ""
                         b.text = ""
                         
                 Button:
                     id: steps
-                    text: "Clear Answers"   
+                    text: "Clear All"   
                     font_size: 75
                     size_hint_y: None
+                    background_color: 1, 0 , 0 , 1
                     height: 200
                     padding: 10, 10
                     on_release:
-                        list_of_steps.clear_widgets()
-                        
-            Button:
-                id: steps
-                text: "Clear All"   
-                font_size: 75
-                size_hint_y: None
-                background_color: 1, 0 , 0 , 1
-                height: 200
-                padding: 10, 10
-                on_release:
-                    a.text = ""
-                    b.text = ""
-                    list_of_steps.clear_widgets()            
+                        a.text = ""
+                        b.text = ""
+                        list_of_steps.clear_widgets()            
                     
             Label:
                 font_size: 75
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "a^2 + b^2 = c^2"       
+                text: "a\u00B2 + b\u00B2 = c\u00B2"       
                    
             BoxLayout:
                 cols: 2
@@ -114,7 +103,7 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10, 10
-                    text: "a :"
+                    text: "a ="
                                                         
                 TextInput:
                     id: a
@@ -138,7 +127,7 @@ Builder.load_string("""
                     size_hint_y: None
                     height: 200
                     padding: 10, 10
-                    text: "b :"
+                    text: "b ="
                                                     
                 TextInput:
                     id: b
@@ -166,6 +155,7 @@ Builder.load_string("""
                     height: 200
                     padding: 10, 10
                     on_release:
+                        list_of_steps.clear_widgets() 
                         Pythagorean.steps(a.text + "," + b.text)    
                        
             GridLayout:
@@ -174,7 +164,6 @@ Builder.load_string("""
                 size_hint: 1, None
                 height: self.minimum_height                  
                     
-
 """)
 
 class Pythagorean(Screen):
@@ -208,8 +197,8 @@ class Pythagorean(Screen):
             entry = list(entry.split(","))
             while float(entry[0]) > 0 and float(entry[1]) > 0:
                 print("entry ;", entry)
-                entry = str(entry[0]) + "^2 " + "+ " + str(entry[1]) + "^2 = c^2"
-                self.ids.list_of_steps.add_widget(Label(text="Pythagorean : " + entry, font_size = 50, size_hint_y= None, height=100))
+                entry = str(entry[0]) + "\u00B2 " + "+ " + str(entry[1]) + "\u00B2 = c\u00B2"
+                self.ids.list_of_steps.add_widget(Label(text= entry, font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 equal_sign = entry.find("=")
                 entry_a_b = entry[:equal_sign].replace(" ","")
@@ -219,12 +208,12 @@ class Pythagorean(Screen):
                 c = entry[equal_sign+1:].replace(" ","")
                 
                 a = list_a_b[0]
-                a_solved = str(eval(str(a).replace("^","**")))
+                a_solved = str(eval(str(a).replace("\u00B2","**2")))
                 print("a_solved",a_solved)
                 self.ids.list_of_steps.add_widget(Label(text="Entry a : " + a + " = " + format(float(a_solved),","), font_size = 50, size_hint_y= None, height=100))
     
                 b = list_a_b[1]
-                b_solved = str(eval(str(b).replace("^","**")))
+                b_solved = str(eval(str(b).replace("\u00B2","**2")))
                 print("b_solved",b_solved)           
                 
                 self.ids.list_of_steps.add_widget(Label(text="Entry b : " + b + " = " + format(float(b_solved),","), font_size = 50, size_hint_y= None, height=100))
@@ -236,27 +225,23 @@ class Pythagorean(Screen):
                 solved = str(float(ab_added)**.5)
                 print("solved",solved)
                 if solved[-2] == "." and solved[-1] == "0":
-                    self.ids.list_of_steps.add_widget(Label(text= "√(" + c + ") = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "\u221a(" + c + ") = " + "\u221a(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
                     self.ids.list_of_steps.add_widget(Label(text= "c = " + format(float(solved),","), font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     break
                 else:
-                    self.ids.list_of_steps.add_widget(Label(text= "√(" + c + ") = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "c = " + "√(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "\u221a(" + c + ") = " + "\u221a(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "c = " + "\u221a(" + format(float(ab_added),",") + ")", font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     break
                 
         except Exception:
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
-            self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
             self.layouts.append(layout)
             
         print("entry neg: ",entry)
         if entry[0].count("-") > 0 or entry[1].count("-") > 0:
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
-            self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________________________________________________________________________________________________" ,font_size = 50, size_hint_y= None, height=100))
             self.layouts.append(layout)
         
 class Homepage(Screen):
