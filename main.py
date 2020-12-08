@@ -21,11 +21,11 @@ Builder.load_string("""
                 root.manager.transition.direction = "left" 
                 
         Button:
-            font_size: 50
+            font_size: 75
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
-            text: "KSquared Pythagorean Step by Step Solver"
+            text: "KSquared Pythagorean Solver"
             on_release:
                 app.root.current = "Pythagorean"
                 root.manager.transition.direction = "left" 
@@ -52,6 +52,13 @@ Builder.load_string("""
             width:200
             height: self.minimum_height
             
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Pythagorean Solver"
+                    
             BoxLayout:
                 cols: 2
                 padding:10
