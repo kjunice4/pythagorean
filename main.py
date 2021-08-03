@@ -7,7 +7,7 @@ from kivy.core.window import Window
 
 #Opening Page
 Builder.load_string("""
-<Homepage>:
+<Homepage>:a
     id: Homepage
     name: "Homepage"
     
