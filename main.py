@@ -305,3 +305,4 @@ class Pythagorean(App):
 
 if __name__ == '__main__':
     Pythagorean().run()
+ 
