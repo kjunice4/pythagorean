@@ -226,6 +226,7 @@ Builder.load_string("""
                     on_release:
                         a.text = ""
                         b.text = ""
+                        c.text = ""
                         list_of_steps.clear_widgets()            
                     
             Label:
