@@ -90,6 +90,17 @@ Builder.load_string("""
                     import webbrowser
                     webbrowser.open('https://kevinjunice.wixsite.com/ksquaredllc/subscribe')
                     
+            Button:
+                font_size: 75
+                background_color: 1, 0, 1, 1
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "What's new?"
+                on_release:
+                    app.root.current = "updates"
+                    root.manager.transition.direction = "left"
+                    
             Label:
                 font_size: 75
                 size_hint_y: None
