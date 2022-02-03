@@ -307,7 +307,7 @@ class Pythagorean(Screen):
         if sm.current != "Homepage":
             print("Its working List")
             sm.transition.direction = 'right'
-            sm.current = sm.previous()
+            sm.current = "Menu"
             
     layouts = []
     def steps(self,entry):
