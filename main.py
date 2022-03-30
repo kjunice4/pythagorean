@@ -300,12 +300,15 @@ class Pythagorean(Screen):
         self.ids.list_of_steps.add_widget(Label(text= "in key handler: ", font_size = 20, size_hint_y= None, height=100))
         self.ids.list_of_steps.add_widget(Label(text= "instance: " + str(instance), font_size = 20, size_hint_y= None, height=100))
         self.ids.list_of_steps.add_widget(Label(text= "key: " + str(key), font_size = 20, size_hint_y= None, height=100))
-        print("*args",*args) 
         
-        if key == 27 or args == None:
+        if key == 27:
             print("Its working ESC = 27 LENGTH")
+            self.ids.list_of_steps.add_widget(Label(text= "IF key: " + str(key), font_size = 20, size_hint_y= None, height=100))
             self.set_previous_screen()
             return True
+        else:
+            self.ids.list_of_steps.add_widget(Label(text= "ELSE key: " + str(key), font_size = 20, size_hint_y= None, height=100))
+            
 
     def set_previous_screen(self):
         if sm.current != "Homepage":
