@@ -291,23 +291,6 @@ Builder.load_string("""
 
 class Pythagorean(Screen):
     sm = ScreenManager()
-
-    def __init__(self, **kwargs):
-        super(Pythagorean, self).__init__(**kwargs)
-        Window.bind(on_keyboard=self._key_handler)
-
-    def _key_handler(self, instance, key, *args):
-        if key == 27:
-            print("Its working ESC = 27 LENGTH")
-            self.set_previous_screen()
-            return True
-
-    def set_previous_screen(self):
-        print("Length is almost working")        
-        if sm.current != "Homepage":
-            print("Its working List")
-            sm.transition.direction = 'right'
-            sm.current = "Menu"
             
     layouts = []
     def steps(self,entry):
@@ -489,6 +472,23 @@ sm.current = "Homepage"
 
 
 class Pythagorean(App):
+    def __init__(self, **kwargs):
+        super(Pythagorean, self).__init__(**kwargs)
+        Window.bind(on_keyboard=self._key_handler)
+
+    def _key_handler(self, instance, key, *args):
+        if key == 27:
+            print("Its working ESC = 27 LENGTH")
+            self.set_previous_screen()
+            return True
+
+    def set_previous_screen(self):
+        print("Length is almost working")        
+        if sm.current != "Homepage":
+            print("Its working List")
+            sm.transition.direction = 'right'
+            sm.current = "Menu"
+    
     def build(app):
         return sm
 
