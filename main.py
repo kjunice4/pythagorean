@@ -1,3 +1,5 @@
+from kivy.config import Config
+Config.set('kivy', 'exit_on_escape', 'False')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.label import Label
@@ -246,6 +248,7 @@ Builder.load_string("""
                 height: 200
                 padding: 10
                 input_filter: lambda text, from_undo: text[:3 - len(a.text)]  
+                esc_key:
                     
             TextInput:
                 id: b
