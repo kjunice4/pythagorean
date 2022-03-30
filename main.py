@@ -294,27 +294,17 @@ class Pythagorean(Screen):
     
     def __init__(self, **kwargs):
         super(Pythagorean, self).__init__(**kwargs)
-        Window.bind(on_keyboard=self._key_handler)
-
-    def _key_handler(self, instance, key, *args):
-        self.ids.list_of_steps.add_widget(Label(text= "in key handler: ", font_size = 20, size_hint_y= None, height=100))
-        self.ids.list_of_steps.add_widget(Label(text= "instance: " + str(instance), font_size = 20, size_hint_y= None, height=100))
-        self.ids.list_of_steps.add_widget(Label(text= "key: " + str(key), font_size = 20, size_hint_y= None, height=100))
+        Window.bind(on_keyboard=self.onBackBtn)
         
+    def onBackBtn(self,window,key,*args):
         if key == 27:
-            print("Its working ESC = 27 LENGTH")
-            self.ids.list_of_steps.add_widget(Label(text= "IF key: " + str(key), font_size = 20, size_hint_y= None, height=100))
-            self.set_previous_screen()
-            return True
-        else:
-            self.ids.list_of_steps.add_widget(Label(text= "ELSE key: " + str(key), font_size = 20, size_hint_y= None, height=100))
-            
-
-    def set_previous_screen(self):
-        if sm.current != "Homepage":
-            sm.transition.direction = 'right'
-            sm.current = "Menu"
-            
+            if sm.current != "Homepage":
+                sm.transition.direction = 'right'
+                sm.current = "Menu"
+                return True
+            else:
+                return False
+                
     layouts = []
     def steps(self,entry):
         print("entry ",entry)
