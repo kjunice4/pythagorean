@@ -297,14 +297,17 @@ class Pythagorean(Screen):
         Window.bind(on_keyboard=self._key_handler)
 
     def _key_handler(self, instance, key, *args):
-        self.ids.list_of_steps.add_widget(Label(text= "instance: " + str(instance), font_size = 50, size_hint_y= None, height=100))
-        if key == 27:
+        self.ids.list_of_steps.add_widget(Label(text= "in key handler: ", font_size = 20, size_hint_y= None, height=100))
+        self.ids.list_of_steps.add_widget(Label(text= "instance: " + str(instance), font_size = 20, size_hint_y= None, height=100))
+        self.ids.list_of_steps.add_widget(Label(text= "key: " + str(key), font_size = 20, size_hint_y= None, height=100))
+        print("*args",*args) 
+        
+        if key == 27 or args == None:
             print("Its working ESC = 27 LENGTH")
             self.set_previous_screen()
             return True
 
     def set_previous_screen(self):
-        print("Length is almost working")        
         if sm.current != "Homepage":
             sm.transition.direction = 'right'
             sm.current = "Menu"
