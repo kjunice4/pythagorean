@@ -1,5 +1,3 @@
-from kivy.config import Config
-Config.set('kivy', 'exit_on_escape', 'False')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.label import Label
@@ -297,16 +295,6 @@ class Pythagorean(Screen):
     
     def __init__(self, **kwargs):
         super(Pythagorean, self).__init__(**kwargs)
-        Window.bind(on_keyboard=self.onBackBtn)
-        
-    def onBackBtn(self,window,key,*args):
-        if key == 27:
-            if sm.current != "Homepage":
-                sm.transition.direction = 'right'
-                sm.current = "Menu"
-                return True
-            else:
-                return False
                 
     layouts = []
     def steps(self,entry):
@@ -488,6 +476,16 @@ sm.current = "Homepage"
 
 
 class Pythagorean(App):
+    def __init__(self, **kwargs):
+        super(Pythagorean, self).__init__(**kwargs)
+        Window.bind(on_keyboard=self._key_handler)
+    
+    def _key_handler(self, instance, key, *args):
+        print("key:",key)
+        if key == 27:
+            sm.current = sm.current
+            return True
+    
     def build(app):
         return sm
 
